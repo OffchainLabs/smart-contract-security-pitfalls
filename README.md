@@ -1,4 +1,4 @@
-# Smart Contract Security Pitfalls — Code Lab
+# Smart Contract Security Pitfalls
 
 Hands-on examples for a short workshop covering:
 - Reentrancy

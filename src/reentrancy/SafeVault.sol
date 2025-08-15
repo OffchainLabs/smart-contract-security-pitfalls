@@ -13,13 +13,13 @@ contract SafeVault is ReentrancyGuard {
     function withdraw() external nonReentrant {
         uint256 bal = balances[msg.sender];
         require(bal > 0, "no funds");
-        // ✅ Effects before interactions
+
+        // 1) Effects: Zero out the balance first
         balances[msg.sender] = 0;
+
+        // 2) Interactions: now safely transfer ETH
         (bool ok, ) = msg.sender.call{value: bal}("");
         require(ok, "send failed");
     }
 
-    function getBalance() external view returns (uint256) {
-        return address(this).balance;
-    }
 }

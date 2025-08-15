@@ -1,0 +1,13 @@
+[profile.default]
+src = 'src'
+test = 'test'
+libs = ['lib']
+solc_version = '0.8.24'
+optimizer = true
+optimizer_runs = 200
+
+# Remappings will work after running the listed forge install commands
+remappings = [
+    'forge-std/=lib/forge-std/src/',
+    '@openzeppelin/=lib/openzeppelin-contracts/'
+]

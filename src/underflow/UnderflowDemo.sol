@@ -8,7 +8,7 @@ contract UnderflowDemo {
         balances[msg.sender] += msg.value;
     }
 
-    // ❌ Intentionally buggy: reintroduces underflow with unchecked
+    // ❌ Vulnerable: reintroduces underflow using unchecked
     function withdrawUnchecked(uint256 amount) external {
         uint256 bal = balances[msg.sender];
         unchecked {
@@ -18,7 +18,7 @@ contract UnderflowDemo {
         payable(msg.sender).transfer(amount);
     }
 
-    // ✅ Safe by default in Solidity >= 0.8 (reverts on underflow)
+    // ✅ Safe: default checked arithmetic in Solidity >=0.8
     function withdrawChecked(uint256 amount) external {
         balances[msg.sender] -= amount; // reverts if amount > balance
         payable(msg.sender).transfer(amount);

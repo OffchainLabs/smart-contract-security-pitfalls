@@ -1,32 +1,34 @@
-# Smart Contract Security Pitfalls
+# Smart Contract Security Demos
 
-Hands-on examples for a short workshop covering:
-- Reentrancy
-- Arithmetic Over/Underflow
-- Access Control Issues
-- Unchecked External Calls
-- (Docs only) Front‑running & MEV
+This repository contains simple Solidity contracts that demonstrate common smart contract vulnerabilities and their safe patterns. Each example is structured for clarity and education purposes.
 
-## Quick start (Foundry)
-1) Install Foundry if you haven't: https://book.getfoundry.sh/getting-started/installation
-2) Install deps inside this repo:
+
+## Structure
+
 ```bash
-forge install foundry-rs/forge-std@v1.9.6
-forge install OpenZeppelin/openzeppelin-contracts@v5.0.2
-```
-3) Run tests:
-```bash
-forge test -vvv
+src/
+  access/           # Access control issues & fixes
+  reentrancy/       # Reentrancy vulnerabilities
+  underflow/        # Arithmetic underflow (pre-Solidity 0.8)
 ```
 
-## What's inside
-- `src/reentrancy/` — a vulnerable vault, an attacker, and a fixed vault using checks-effects-interactions + `ReentrancyGuard`.
-- `src/overflow/` — an underflow demo showing how `unchecked` can reintroduce bugs even on Solidity ≥0.8, plus a safe version.
-- `src/access/` — missing access checks vs. a fix using OpenZeppelin `Ownable`.
-- `src/unchecked-call/` — ignoring ERC‑20 return values vs. using `SafeERC20`.
+## How to Use
 
-MEV is discussed in `docs/MEV.md` with patterns and mitigations; no runnable exploit code is included.
+1. Install Foundry if you haven't: https://book.getfoundry.sh/getting-started/installation
+2. Clone this repository:
+
+```bash
+git clone https://github.com/OffchainLabs/smart-contract-security-pitfalls.git
+cd smart-contract-security-pitfalls
+```
+3. Build contracts:
+
+```bash
+forge build
+```
 
 ## Notes
-- Contracts use Solidity 0.8.24.
-- Tests use `forge-std`'s `Test` utilities.
+
+- Each folder contains vulnerable and fixed versions of contracts.
+- Solidity ≥0.8 already protects against arithmetic overflow/underflow, but older code or unchecked blocks may still be unsafe.
+- These demos are for educational purposes only.
